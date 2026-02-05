@@ -1,13 +1,13 @@
 import React from 'react';
 import { TaskListType } from '@/types/types';
 import { Card } from './ui/card';
-import { Link } from 'lucide-react';
+import Link from 'next/link';
 export default function TaskListCard({ taskList }: { taskList: TaskListType }) {
 	return (
-		<Card>
-			<div className="pl-5">
-				<Link>{taskList.name}</Link>
-			</div>
-		</Card>
+		<Link href={`/list/${taskList.id}`}>
+			<Card>
+				<div className="pl-5">{taskList.name}</div>
+			</Card>
+		</Link>
 	);
 }
