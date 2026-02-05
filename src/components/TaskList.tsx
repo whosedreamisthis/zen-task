@@ -5,9 +5,9 @@ import TaskCard from './TaskCard';
 import { Input } from './ui/input';
 import { Check, Divide, Plus, X } from 'lucide-react';
 import { Button } from './ui/button';
-import { Menu } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { useTaskStore } from '@/store/useTaskStore';
-
+import Link from 'next/link';
 export default function TaskList({ taskList }: { taskList: TaskListType }) {
 	const [editingName, setEditingName] = useState(false);
 	const [listName, setListName] = useState('');
@@ -33,9 +33,9 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 	return (
 		<>
 			<div className="relative bg-gray-100 w-[400px] m-auto p-4">
-				<Button variant="ghost" className="absolute top-3 left-1">
-					<Menu className="text-center" />
-				</Button>
+				<Link className="absolute top-4 left-1" href="/list">
+					<ArrowLeft className="text-center" />
+				</Link>
 				{editingName ? (
 					<div className="flex items-center gap-2 ml-8">
 						<Input
@@ -50,8 +50,12 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 						<Check
 							className="text-green-400 font-bold"
 							onPointerDown={saveNameEdit}
+							className="cursor-pointer"
 						/>
-						<X onPointerDown={cancelNameEdit} />
+						<X
+							onPointerDown={cancelNameEdit}
+							className="cursor-pointer"
+						/>
 					</div>
 				) : (
 					<h1
