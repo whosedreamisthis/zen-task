@@ -13,13 +13,18 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 	const [listName, setListName] = useState('');
 	const updateListName = useTaskStore((state) => state.updateListName);
 	const cancelNameEdit = () => {
+		console.log('cancelNameEdit', listName);
 		// Here you would eventually save tempName to your state/database
 		setEditingName(false);
 		setListName('');
 	};
 
-	const saveNameEdit = () => {
-		updateListName(taskList.id, listName);
+	const saveNameEdit = (e) => {
+		e.preventDefault();
+		console.log('saving name', listName);
+		if (listName !== '') {
+			updateListName(taskList.id, listName);
+		}
 		// Here you would eventually save tempName to your state/database
 		setEditingName(false);
 		setListName('');
@@ -36,7 +41,7 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 						<Input
 							value={listName}
 							autoFocus
-							onBlur={saveNameEdit}
+							onBlur={cancelNameEdit}
 							onChange={(e) => {
 								setListName(e.target.value);
 							}}
@@ -44,9 +49,9 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 						/>
 						<Check
 							className="text-green-400 font-bold"
-							onClick={saveNameEdit}
+							onPointerDown={saveNameEdit}
 						/>
-						<X onClick={cancelNameEdit} />
+						<X onPointerDown={cancelNameEdit} />
 					</div>
 				) : (
 					<h1

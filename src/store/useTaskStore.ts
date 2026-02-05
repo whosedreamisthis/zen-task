@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 import { TaskListType } from '@/types/types';
 import { seed_tasks } from '@/data/seed';
 
@@ -12,14 +13,23 @@ interface TaskState {
 	deleteTask: (listId: string, taskId: string) => void;
 }
 
-export const useTaskStore = create<TaskState>((set) => {
-	return {
-		lists: seed_tasks,
-		updateListName: (id, newName) =>
-			set((state) => ({
-				lists: state.lists.map((list) => {
-					return list.id === id ? { ...list, name: newName } : list;
-				}),
-			})),
-	};
-});
+export const useTaskStore = create<TaskState>()(
+	persist(
+		(set) => {
+			return {
+				lists: seed_tasks,
+				updateListName: (id, newName) =>
+					set((state) => ({
+						lists: state.lists.map((list) => {
+							return list.id === id
+								? { ...list, name: newName }
+								: list;
+						}),
+					})),
+			};
+		},
+		{
+			name: 'task_store',
+		},
+	),
+);
