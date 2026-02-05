@@ -6,10 +6,12 @@ import { Input } from './ui/input';
 import { Check, Divide, Plus, X } from 'lucide-react';
 import { Button } from './ui/button';
 import { Menu } from 'lucide-react';
+import { useTaskStore } from '@/store/useTaskStore';
+
 export default function TaskList({ taskList }: { taskList: TaskListType }) {
 	const [editingName, setEditingName] = useState(false);
 	const [listName, setListName] = useState('');
-
+	const updateListName = useTaskStore((state) => state.updateListName);
 	const cancelNameEdit = () => {
 		// Here you would eventually save tempName to your state/database
 		setEditingName(false);
@@ -17,6 +19,7 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 	};
 
 	const saveNameEdit = () => {
+		updateListName(taskList.id, listName);
 		// Here you would eventually save tempName to your state/database
 		setEditingName(false);
 		setListName('');

@@ -1,15 +1,17 @@
-import { seed_tasks } from '@/data/seed';
+'use client';
+import { use } from 'react';
 import TaskList from '@/components/TaskList';
 import { notFound } from 'next/navigation';
-
-export default async function TaskListPage({
+import { useTaskStore } from '@/store/useTaskStore';
+export default function TaskListPage({
 	params,
 }: {
 	params: Promise<{ listSlug: string }>;
 }) {
-	const { listSlug } = await params;
+	const { listSlug } = use(params);
+	const lists = useTaskStore((state) => state.lists);
 	console.log('URL Slug received:', listSlug);
-	const taskList = seed_tasks.find((l) => l.id === listSlug);
+	const taskList = lists.find((l) => l.id === listSlug);
 
 	if (!taskList) {
 		return notFound();
