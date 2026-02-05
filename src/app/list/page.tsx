@@ -9,7 +9,7 @@ import { useTaskStore } from '@/store/useTaskStore';
 export default function TaskListsPage() {
 	const lists = useTaskStore((state) => state.lists);
 	return (
-		<div className="flex flex-col justify-center  w-[400px] m-auto">
+		<div className="flex flex-col justify-center w-full max-w-md m-auto px-4">
 			<h1 className="text-center text-2xl font-semibold mb-5">Lists</h1>
 			<div className="flex justify-center items-center">
 				<Input
@@ -20,7 +20,7 @@ export default function TaskListsPage() {
 					<Plus />
 				</Button>
 			</div>
-			<div className="flex flex-col gap-4 w-[400px] m-auto mt-10">
+			<div className="flex flex-col gap-4 w-full max-w-md m-auto mt-10">
 				{lists.map((taskList) => {
 					return (
 						<TaskListCard key={taskList.id} taskList={taskList} />

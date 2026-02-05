@@ -32,7 +32,7 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 
 	return (
 		<>
-			<div className="relative bg-gray-100 w-[400px] m-auto p-4">
+			<div className="relative bg-gray-100 w-full max-w-md m-auto p-4">
 				<Link className="absolute top-4 left-1" href="/list">
 					<ArrowLeft className="text-center" />
 				</Link>
@@ -66,7 +66,7 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 					</h1>
 				)}
 			</div>
-			<div className="flex flex-col gap-4 w-[400px] m-auto mt-10">
+			<div className="flex flex-col gap-4 w-full max-w-md m-auto mt-10 px-4">
 				<div className="flex justify-center items-center">
 					<Input
 						placeholder="What needs to be done?"
