@@ -18,6 +18,14 @@ export const useTaskStore = create<TaskState>()(
 		(set) => {
 			return {
 				lists: seed_tasks,
+				addList: (name) =>
+					set((state) => ({
+						lists: [
+							
+              { id: crypto.randomUUID(), name, tasks: [] },
+              ...state.lists
+						],
+					})),
 				updateListName: (id, newName) =>
 					set((state) => ({
 						lists: state.lists.map((list) => {
