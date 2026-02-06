@@ -4,6 +4,7 @@ import { TaskListType, TaskType } from '@/types/types';
 import TaskCard from './TaskCard';
 import { Input } from './ui/input';
 import { Check, Divide, Plus, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from './ui/button';
 import { ArrowLeft, Trash } from 'lucide-react';
 import { useTaskStore } from '@/store/useTaskStore';
@@ -70,15 +71,31 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 				</div>
 
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-					{taskList.tasks.map((task: TaskType) => {
-						return (
-							<TaskCard
-								key={task.id}
-								task={task}
-								listId={taskList.id}
-							/>
-						);
-					})}
+					<AnimatePresence mode="popLayout">
+						{taskList.tasks.map((task: TaskType) => {
+							return (
+								<motion.div
+									key={task.id}
+									layout
+									initial={{ opacity: 0, scale: 0.9 }}
+									animate={{ opacity: 1, scale: 1 }}
+									exit={{
+										opacity: 0,
+										scale: 0.9,
+										transition: { duration: 0.2 },
+									}}
+									// Notice: No background or padding here!
+									// We let the TaskCard handle the styling.
+								>
+									<TaskCard
+										key={task.id}
+										task={task}
+										listId={taskList.id}
+									/>
+								</motion.div>
+							);
+						})}
+					</AnimatePresence>
 				</div>
 			</div>
 		</>
