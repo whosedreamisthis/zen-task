@@ -6,13 +6,15 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea'; // Assuming you have a shadcn textarea or standard one
 import { Tag, Flag, AlignLeft } from 'lucide-react';
+import PriorityDropDownList from './PriorityDropDownList';
 
 export default function CreateTaskModal({ initialTitle, listId, onClose }) {
 	const addTask = useTaskStore((state) => state.addTask);
 
 	// Local state for all details
 	const [title, setTitle] = useState(initialTitle);
-	const [priority, setPriority] = useState('medium');
+	const [priority, setPriority] = useState('');
+
 	const [category, setCategory] = useState('Personal');
 	const [description, setDescription] = useState('');
 
@@ -59,20 +61,10 @@ export default function CreateTaskModal({ initialTitle, listId, onClose }) {
 
 					{/* Meta Row: Priority & Category */}
 					<div className="grid grid-cols-2 gap-4">
-						<div className="space-y-2">
-							<label className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-zinc-400">
-								<Flag size={12} /> Priority
-							</label>
-							<select
-								value={priority}
-								onChange={(e) => setPriority(e.target.value)}
-								className="w-full h-10 bg-zinc-50 dark:bg-zinc-900 border-none rounded-xl px-3 text-sm focus:ring-1 focus:ring-zinc-300 outline-none appearance-none"
-							>
-								<option value="low">Low 🟢</option>
-								<option value="medium">Medium 🟡</option>
-								<option value="high">High 🔴</option>
-							</select>
-						</div>
+						<PriorityDropDownList
+							setPriority={setPriority}
+							priority={priority}
+						/>
 						<div className="space-y-2">
 							<label className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-zinc-400">
 								<Tag size={12} /> Category
