@@ -10,7 +10,6 @@ export default function TaskListPage({
 }) {
 	const { listSlug } = use(params);
 	const lists = useTaskStore((state) => state.lists);
-	console.log('URL Slug received:', listSlug);
 	const taskList = lists.find((l) => l.id === listSlug);
 
 	if (!taskList) {

@@ -9,7 +9,7 @@ interface TaskState {
 	deleteList: (id: string) => void;
 	addList: (id: string) => void;
 	toggleTask: (listId: string, taskId: string) => void;
-	addTask: (listId: string) => void;
+	addTask: (listId: string, taskTitle: string) => void;
 	deleteTask: (listId: string, taskId: string) => void;
 }
 
@@ -21,16 +21,34 @@ export const useTaskStore = create<TaskState>()(
 				addList: (name) =>
 					set((state) => ({
 						lists: [
-							
-              { id: crypto.randomUUID(), name, tasks: [] },
-              ...state.lists
+							{ id: crypto.randomUUID(), name, tasks: [] },
+							...state.lists,
 						],
 					})),
+
 				updateListName: (id, newName) =>
 					set((state) => ({
 						lists: state.lists.map((list) => {
 							return list.id === id
 								? { ...list, name: newName }
+								: list;
+						}),
+					})),
+				addTask: (listId, taskTitle) =>
+					set((state) => ({
+						lists: state.lists.map((list) => {
+							return listId === list.id
+								? {
+										...list,
+										tasks: [
+											{
+												id: crypto.randomUUID(),
+												title: taskTitle,
+												isCompleted: false,
+											},
+											...list.tasks,
+										],
+								  }
 								: list;
 						}),
 					})),

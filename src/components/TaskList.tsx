@@ -11,9 +11,10 @@ import Link from 'next/link';
 export default function TaskList({ taskList }: { taskList: TaskListType }) {
 	const [editingName, setEditingName] = useState(false);
 	const [listName, setListName] = useState('');
+	const [taskTitle, setTaskTitle] = useState('');
 	const updateListName = useTaskStore((state) => state.updateListName);
+	const addTask = useTaskStore((state) => state.addTask);
 	const cancelNameEdit = () => {
-		console.log('cancelNameEdit', listName);
 		// Here you would eventually save tempName to your state/database
 		setEditingName(false);
 		setListName('');
@@ -21,13 +22,22 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 
 	const saveNameEdit = (e) => {
 		e.preventDefault();
-		console.log('saving name', listName);
+
 		if (listName !== '') {
 			updateListName(taskList.id, listName);
 		}
 		// Here you would eventually save tempName to your state/database
 		setEditingName(false);
 		setListName('');
+	};
+
+	const addTaskHandler = (e) => {
+		e.preventDefault();
+		if (taskTitle !== '') {
+			addTask(taskList.id, taskTitle);
+		}
+
+		setTaskTitle('');
 	};
 
 	return (
@@ -67,15 +77,23 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 				)}
 			</div>
 			<div className="flex flex-col gap-4 w-full max-w-md m-auto mt-10 px-4">
-				<div className="flex justify-center items-center">
+				<div className="flex justify-center items-center w-full items-stretch">
 					<Input
+						value={taskTitle}
+						onChange={(e) => {
+							setTaskTitle(e.target.value);
+						}}
 						placeholder="What needs to be done?"
-						className="py-6 rounded-r-none focus-visible:ring-offset-0"
+						className="h-12 rounded-r-none border-r-0 focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-offset-0"
 					/>
-					<Button className="p-6 rounded-l-none border-l-0">
+					<Button
+						className="h-auto px-4 rounded-l-none"
+						onClick={addTaskHandler}
+					>
 						<Plus />
 					</Button>
 				</div>
+
 				{taskList.tasks.map((task: TaskType) => {
 					return <TaskCard key={task.id} task={task} />;
 				})}
