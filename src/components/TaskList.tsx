@@ -98,7 +98,13 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 				</div>
 
 				{taskList.tasks.map((task: TaskType) => {
-					return <TaskCard key={task.id} task={task} />;
+					return (
+						<TaskCard
+							key={task.id}
+							task={task}
+							listId={taskList.id}
+						/>
+					);
 				})}
 			</div>
 		</>
