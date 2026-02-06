@@ -1,6 +1,7 @@
 'use client';
-import React, { useState } from 'react';
-
+import React, { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react'; // Change this
+import { useRouter } from 'next/navigation';
 import TaskListCard from '@/components/TaskListCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,10 +10,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTaskStore } from '@/store/useTaskStore';
 
 export default function TaskListsPage() {
+	const { data: session, status } = useSession();
+	const router = useRouter();
 	const lists = useTaskStore((state) => state.lists);
 	const addList = useTaskStore((state) => state.addList);
 
 	const [listName, setListName] = useState('');
+
+	// Protect the route on the client side
+	useEffect(() => {
+		if (status === 'unauthenticated') {
+			router.push('/');
+		}
+	}, [status, router]);
+
 	const addNewList = () => {
 		if (listName !== '') {
 			addList(listName);
