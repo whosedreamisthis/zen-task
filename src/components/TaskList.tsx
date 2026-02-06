@@ -50,34 +50,12 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 					<ArrowLeft className="text-center" />
 				</Link>
 
-				{editingName ? (
-					<div className="flex items-center gap-2 ml-8">
-						<Input
-							value={listName}
-							autoFocus
-							onBlur={cancelNameEdit}
-							onChange={(e) => {
-								setListName(e.target.value);
-							}}
-							placeholder={taskList.name}
-						/>
-						<Check
-							className="text-green-400 font-bold"
-							onPointerDown={saveNameEdit}
-						/>
-						<X
-							onPointerDown={cancelNameEdit}
-							className="cursor-pointer"
-						/>
-					</div>
-				) : (
-					<h1
-						className="text-center font-bold"
-						onClick={() => setEditingName(true)}
-					>
-						{taskList.name}
-					</h1>
-				)}
+				<h1
+					className="text-center font-bold"
+					onClick={() => setEditingName(true)}
+				>
+					{taskList.name}
+				</h1>
 			</div>
 			<div className="flex flex-col gap-4 w-full max-w-md m-auto mt-10 px-4">
 				<div className="flex justify-center items-center w-full items-stretch">

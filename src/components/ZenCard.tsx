@@ -150,7 +150,15 @@ export default function ZenCard({
 								/>
 							</div>
 						) : (
-							<div className="pl-5">{label}</div>
+							<div
+								className={`pl-5 truncate ${
+									showTools
+										? 'max-w-[350px]'
+										: 'max-w-[390px]'
+								}`}
+							>
+								{label}
+							</div>
 						)}
 					</Card>
 				</div>
