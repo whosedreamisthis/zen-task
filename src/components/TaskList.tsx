@@ -5,8 +5,9 @@ import TaskCard from './TaskCard';
 import { Input } from './ui/input';
 import { Check, Divide, Plus, X } from 'lucide-react';
 import { Button } from './ui/button';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Trash } from 'lucide-react';
 import { useTaskStore } from '@/store/useTaskStore';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 export default function TaskList({ taskList }: { taskList: TaskListType }) {
 	const [editingName, setEditingName] = useState(false);
@@ -14,6 +15,8 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 	const [taskTitle, setTaskTitle] = useState('');
 	const updateListName = useTaskStore((state) => state.updateListName);
 	const addTask = useTaskStore((state) => state.addTask);
+
+	const router = useRouter();
 	const cancelNameEdit = () => {
 		// Here you would eventually save tempName to your state/database
 		setEditingName(false);
@@ -46,6 +49,7 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 				<Link className="absolute top-4 left-1" href="/list">
 					<ArrowLeft className="text-center" />
 				</Link>
+
 				{editingName ? (
 					<div className="flex items-center gap-2 ml-8">
 						<Input
@@ -60,7 +64,6 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 						<Check
 							className="text-green-400 font-bold"
 							onPointerDown={saveNameEdit}
-							className="cursor-pointer"
 						/>
 						<X
 							onPointerDown={cancelNameEdit}

@@ -34,6 +34,10 @@ export const useTaskStore = create<TaskState>()(
 								: list;
 						}),
 					})),
+				deleteList: (id) =>
+					set((state) => ({
+						lists: state.lists.filter((list) => list.id != id),
+					})),
 				addTask: (listId, taskTitle) =>
 					set((state) => ({
 						lists: state.lists.map((list) => {
