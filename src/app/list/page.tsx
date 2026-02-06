@@ -19,7 +19,7 @@ export default function TaskListsPage() {
 	};
 
 	return (
-		<div className="flex flex-col justify-center w-full max-w-md m-auto px-4">
+		<div className="flex flex-col justify-center w-full m-auto px-4">
 			<h1 className="text-center text-2xl font-semibold mb-5">Lists</h1>
 			<div className="flex justify-center items-center w-full items-stretch">
 				<Input
@@ -37,7 +37,7 @@ export default function TaskListsPage() {
 					<Plus />
 				</Button>
 			</div>
-			<div className="flex flex-col gap-4 w-full max-w-md m-auto mt-10">
+			<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 w-full m-auto mt-10">
 				{lists.map((taskList) => {
 					return (
 						<TaskListCard key={taskList.id} taskList={taskList} />

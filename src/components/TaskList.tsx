@@ -57,7 +57,7 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 					{taskList.name}
 				</h1>
 			</div>
-			<div className="flex flex-col gap-4 w-full max-w-md m-auto mt-10 px-4">
+			<div className="flex flex-col gap-4 w-full m-auto mt-10 px-4">
 				<div className="flex justify-center items-center w-full items-stretch">
 					<Input
 						value={taskTitle}
@@ -75,15 +75,17 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 					</Button>
 				</div>
 
-				{taskList.tasks.map((task: TaskType) => {
-					return (
-						<TaskCard
-							key={task.id}
-							task={task}
-							listId={taskList.id}
-						/>
-					);
-				})}
+				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+					{taskList.tasks.map((task: TaskType) => {
+						return (
+							<TaskCard
+								key={task.id}
+								task={task}
+								listId={taskList.id}
+							/>
+						);
+					})}
+				</div>
 			</div>
 		</>
 	);
