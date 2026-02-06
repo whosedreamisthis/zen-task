@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ZenCard from './ZenCard';
 import { Check } from 'lucide-react'; // Using Check for the "pop" inside
 import { useState } from 'react';
-
+import { useRouter } from 'next/navigation';
 export default function TaskCard({
 	task,
 	listId,
@@ -17,10 +17,15 @@ export default function TaskCard({
 	const updateTaskTitle = useTaskStore((state) => state.updateTaskTitle);
 	const toggleTask = useTaskStore((state) => state.toggleTask);
 	const [completed, setCompleted] = useState(task.isCompleted);
+	const router = useRouter();
 
 	const handleToggle = () => {
 		toggleTask(listId, task.id);
 		setCompleted((prev) => !prev);
+	};
+
+	const onTap = (id: string) => {
+		router.push(`/list/${listId}/${id}`);
 	};
 
 	return (
@@ -33,7 +38,7 @@ export default function TaskCard({
 			onUpdate={(id, label) => {
 				updateTaskTitle(listId, id, label);
 			}}
-			onTap={() => {}}
+			onTap={onTap}
 			// Optional: Dim the whole card when completed
 			className={
 				completed ? 'opacity-60 transition-opacity' : 'opacity-100'

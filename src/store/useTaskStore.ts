@@ -9,7 +9,25 @@ interface TaskState {
 	deleteList: (id: string) => void;
 	addList: (id: string) => void;
 	toggleTask: (listId: string, taskId: string) => void;
-	addTask: (listId: string, taskTitle: string) => void;
+	addTask: (
+		listId: string,
+		taskData: {
+			title: string;
+			priority: string;
+			category: string;
+			description: string;
+		},
+	) => void;
+	updateTask: (
+		listId: string,
+		taskId: string,
+		taskData: {
+			title: string;
+			priority: string;
+			category: string;
+			description: string;
+		},
+	) => void;
 	updateTaskTitle: (listId: string, taskId: string, newTitle: string) => void;
 	deleteTask: (listId: string, taskId: string) => void;
 }
@@ -91,7 +109,34 @@ export const useTaskStore = create<TaskState>()(
 								: list;
 						}),
 					})),
-				addTask: (listId, taskTitle) =>
+				updateTask: (
+					listId,
+					taskId,
+					{ title, priority, category, description },
+				) =>
+					set((state) => ({
+						lists: state.lists.map((list) => {
+							return listId === list.id
+								? {
+										...list,
+										tasks: list.tasks.map((task) => {
+											return taskId === task.id
+												? {
+														id: taskId,
+														title,
+														category,
+														priority,
+														description,
+														isCompleted:
+															task.isCompleted,
+												  }
+												: task;
+										}),
+								  }
+								: list;
+						}),
+					})),
+				addTask: (listId, { title, priority, category, description }) =>
 					set((state) => ({
 						lists: state.lists.map((list) => {
 							return listId === list.id
@@ -100,7 +145,10 @@ export const useTaskStore = create<TaskState>()(
 										tasks: [
 											{
 												id: crypto.randomUUID(),
-												title: taskTitle,
+												title,
+												priority,
+												category,
+												description,
 												isCompleted: false,
 											},
 											...list.tasks,

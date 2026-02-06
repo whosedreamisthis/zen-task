@@ -10,28 +10,15 @@ import { ArrowLeft, Trash } from 'lucide-react';
 import { useTaskStore } from '@/store/useTaskStore';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import CreateTaskModal from './CreateTaskModal';
 export default function TaskList({ taskList }: { taskList: TaskListType }) {
-	const [listName, setListName] = useState('');
 	const [taskTitle, setTaskTitle] = useState('');
-	const updateListName = useTaskStore((state) => state.updateListName);
+	const [isModalOpen, setIsModalOpen] = useState(false);
 	const addTask = useTaskStore((state) => state.addTask);
 
-	const router = useRouter();
-	const cancelNameEdit = () => {
-		// Here you would eventually save tempName to your state/database
-
-		setListName('');
-	};
-
-	const saveNameEdit = (e) => {
-		e.preventDefault();
-
-		if (listName !== '') {
-			updateListName(taskList.id, listName);
-		}
-		// Here you would eventually save tempName to your state/database
-
-		setListName('');
+	const handlePlusClick = () => {
+		if (taskTitle.trim() === '') return;
+		setIsModalOpen(true); // Open modal instead of adding immediately
 	};
 
 	const addTaskHandler = (e) => {
@@ -64,11 +51,23 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 					/>
 					<Button
 						className="h-auto px-4 rounded-l-none"
-						onClick={addTaskHandler}
+						onClick={handlePlusClick}
 					>
 						<Plus />
 					</Button>
 				</div>
+				<AnimatePresence>
+					{isModalOpen && (
+						<CreateTaskModal
+							initialTitle={taskTitle}
+							listId={taskList.id}
+							onClose={() => {
+								setIsModalOpen(false);
+								setTaskTitle(''); // Clear input after success
+							}}
+						/>
+					)}
+				</AnimatePresence>
 
 				<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
 					<AnimatePresence mode="popLayout">
