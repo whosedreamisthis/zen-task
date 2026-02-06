@@ -45,7 +45,7 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 
 	return (
 		<>
-			<div className="relative bg-gray-100 w-full max-w-md m-auto p-4">
+			<div className="relative bg-gray-100 dark:bg-gray-800 w-full max-w-md m-auto p-4">
 				<Link className="absolute top-4 left-1" href="/list">
 					<ArrowLeft className="text-center" />
 				</Link>

@@ -20,6 +20,11 @@ export default function TaskListPage({
 	if (!hasHydrated) {
 		return <div></div>;
 	}
+
+	if (!taskList) {
+		return notFound();
+	}
+
 	return (
 		<div>
 			<TaskList taskList={taskList} />
