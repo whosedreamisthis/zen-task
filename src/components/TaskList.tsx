@@ -10,7 +10,6 @@ import { useTaskStore } from '@/store/useTaskStore';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 export default function TaskList({ taskList }: { taskList: TaskListType }) {
-	const [editingName, setEditingName] = useState(false);
 	const [listName, setListName] = useState('');
 	const [taskTitle, setTaskTitle] = useState('');
 	const updateListName = useTaskStore((state) => state.updateListName);
@@ -19,7 +18,7 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 	const router = useRouter();
 	const cancelNameEdit = () => {
 		// Here you would eventually save tempName to your state/database
-		setEditingName(false);
+
 		setListName('');
 	};
 
@@ -30,7 +29,7 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 			updateListName(taskList.id, listName);
 		}
 		// Here you would eventually save tempName to your state/database
-		setEditingName(false);
+
 		setListName('');
 	};
 
@@ -50,12 +49,7 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 					<ArrowLeft className="text-center" />
 				</Link>
 
-				<h1
-					className="text-center font-bold"
-					onClick={() => setEditingName(true)}
-				>
-					{taskList.name}
-				</h1>
+				<h1 className="text-center font-bold">{taskList.name}</h1>
 			</div>
 			<div className="flex flex-col gap-4 w-full m-auto mt-10 px-4">
 				<div className="flex justify-center items-center w-full items-stretch">

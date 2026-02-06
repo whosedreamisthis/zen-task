@@ -1,10 +1,9 @@
 'use client';
 
-import React, { Children, useRef, useState } from 'react';
+import React, { useRef, useReducer } from 'react';
 
 import { Card } from './ui/card';
 
-import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Check, Pencil, Trash, X } from 'lucide-react';
 
@@ -18,6 +17,47 @@ interface Props {
 	onTap: (id: string) => void;
 	children?: React.ReactNode;
 }
+
+const initialState = {
+	showTools: false,
+	editing: false,
+	newLabel: '',
+};
+
+const reducer = (state, action) => {
+	switch (action.type) {
+		case 'CANCEL_EDIT':
+			return {
+				...state,
+				editing: false,
+				newLabel: '',
+			};
+		case 'SAVE_EDIT':
+			return {
+				...state,
+				editing: false,
+				newLabel: '',
+			};
+		case 'SET_TOOLS':
+			return {
+				...state,
+				showTools: action.payload,
+			};
+		case 'START_EDITING':
+			return {
+				...state,
+				editing: true,
+			};
+		case 'SET_NEW_LABEL':
+			return {
+				...state,
+				newLabel: action.payload,
+			};
+
+		default:
+			return state;
+	}
+};
 export default function ZenCard({
 	id,
 	label,
@@ -26,11 +66,8 @@ export default function ZenCard({
 	onTap,
 	children,
 }: Props) {
-	const [showTools, setShowTools] = useState(false);
-	const [newLabel, setNewLabel] = useState('');
-	const [editing, setEditing] = useState(false);
+	const [state, dispatch] = useReducer(reducer, initialState);
 
-	const router = useRouter();
 	const startPos = useRef({ x: 0, y: 0 });
 	const handlePointerDown = (e: React.PointerEvent) => {
 		startPos.current = { x: e.clientX, y: e.clientY };
@@ -50,37 +87,35 @@ export default function ZenCard({
 
 	const cancelLabelChange = () => {
 		// Here you would eventually save tempName to your state/database
-		setEditing(false);
-		setNewLabel('');
+		dispatch({ type: 'CANCEL_EDIT' });
 	};
 
 	const saveNewLabel = (e) => {
 		e.preventDefault();
 
-		if (newLabel !== '') {
-			onUpdate(id, newLabel);
+		if (state.newLabel !== '') {
+			onUpdate(id, state.newLabel);
 		}
 		// Here you would eventually save tempName to your state/database
-		setEditing(false);
-		setNewLabel('');
+		dispatch({ type: 'SAVE_EDIT' });
 	};
 
 	return (
 		<>
 			{/* 1. GLOBAL OVERLAY: Only appears when tools are out */}
-			{showTools && (
+			{state.showTools && (
 				<div
 					className="fixed inset-0 z-30 bg-transparent"
-					onPointerDown={() => setShowTools(false)}
+					onPointerDown={() =>
+						dispatch({ type: 'SET_TOOLS', payload: false })
+					}
 				/>
 			)}
 			<motion.div
 				// 1. Detection for the Swipe
 				onPanEnd={(event, info) => {
 					if (info.offset.x < -100) {
-						// handleDelete(taskList.id);
-						console.log('deleting list');
-						setShowTools(true);
+						dispatch({ type: 'SET_TOOLS', payload: true });
 					}
 				}}
 				// 2. Manual detection for the Tap
@@ -88,13 +123,13 @@ export default function ZenCard({
 				onPointerUp={handlePointerUp}
 				whileTap={{ scale: 0.98 }}
 				className={`cursor-pointer select-none touch-pan-y relative ${
-					showTools ? 'z-40' : 'z-10'
+					state.showTools ? 'z-40' : 'z-10'
 				}`}
 			>
 				<div className="relative">
-					{showTools && (
+					{state.showTools && (
 						<>
-							{!editing && (
+							{!state.editing && (
 								<>
 									<Trash
 										className="absolute right-4 top-7 text-gray-600 z-50"
@@ -117,7 +152,7 @@ export default function ZenCard({
 										} // Stop the parent from recording startPos
 										onPointerUp={(e) => e.stopPropagation()}
 										onClick={(e) => {
-											setEditing(true);
+											dispatch({ type: 'START_EDITING' });
 											e.stopPropagation();
 										}}
 									/>
@@ -126,7 +161,7 @@ export default function ZenCard({
 						</>
 					)}
 					<Card>
-						{editing ? (
+						{state.editing ? (
 							<div
 								className="flex items-center gap-2 ml-8"
 								onPointerDown={(e) => e.stopPropagation()}
@@ -134,11 +169,14 @@ export default function ZenCard({
 							>
 								<Input
 									className="z-50"
-									value={newLabel}
+									value={state.newLabel}
 									autoFocus
 									onBlur={cancelLabelChange}
 									onChange={(e) => {
-										setNewLabel(e.target.value);
+										dispatch({
+											type: 'SET_NEW_LABEL',
+											payload: e.target.value,
+										});
 									}}
 									placeholder={label}
 								/>
@@ -156,7 +194,7 @@ export default function ZenCard({
 								{children}
 								<div
 									className={`truncate ${
-										showTools
+										state.showTools
 											? 'max-w-[75%]'
 											: 'max-w-[85%]'
 									}`}
