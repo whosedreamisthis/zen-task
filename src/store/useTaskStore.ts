@@ -53,6 +53,24 @@ export const useTaskStore = create<TaskState>()(
 								: list;
 						}),
 					})),
+				toggleTask: (listId, taskId) =>
+					set((state) => ({
+						lists: state.lists.map((list) => {
+							return listId === list.id
+								? {
+										...list,
+										tasks: list.tasks.map((task) => {
+											return taskId === task.id
+												? {
+														...task,
+														isCompleted: !task.isCompleted,
+												  }
+												: task;
+										}),
+								  }
+								: list;
+						}),
+					})),
 				updateTaskTitle: (listId, taskId, newTitle) =>
 					set((state) => ({
 						lists: state.lists.map((list) => {

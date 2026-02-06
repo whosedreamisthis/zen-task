@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { Children, useRef, useState } from 'react';
 
 import { Card } from './ui/card';
 
@@ -16,6 +16,7 @@ interface Props {
 	onDelete: (id: string) => void;
 	onUpdate: (id: string, label: string) => void;
 	onTap: (id: string) => void;
+	children?: React.ReactNode;
 }
 export default function ZenCard({
 	id,
@@ -23,6 +24,7 @@ export default function ZenCard({
 	onDelete,
 	onUpdate,
 	onTap,
+	children,
 }: Props) {
 	const [showTools, setShowTools] = useState(false);
 	const [newLabel, setNewLabel] = useState('');
@@ -150,14 +152,17 @@ export default function ZenCard({
 								/>
 							</div>
 						) : (
-							<div
-								className={`pl-5 truncate ${
-									showTools
-										? 'max-w-[350px]'
-										: 'max-w-[390px]'
-								}`}
-							>
-								{label}
+							<div className="flex pl-3 gap-3">
+								{children}
+								<div
+									className={`truncate ${
+										showTools
+											? 'max-w-[75%]'
+											: 'max-w-[85%]'
+									}`}
+								>
+									{label}
+								</div>
 							</div>
 						)}
 					</Card>
