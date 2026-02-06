@@ -6,14 +6,16 @@ import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea'; // Assuming you have a shadcn textarea or standard one
 import { Tag, Flag, AlignLeft } from 'lucide-react';
-import PriorityDropDownList from './PriorityDropDownList';
+import ZenDropDownList from './ZenDropDownList';
+import { PRIORITY_MAP } from '@/types/types';
+import { CATEGORY_MAP } from '@/types/types';
 
 export default function CreateTaskModal({ initialTitle, listId, onClose }) {
 	const addTask = useTaskStore((state) => state.addTask);
 
 	// Local state for all details
 	const [title, setTitle] = useState(initialTitle);
-	const [priority, setPriority] = useState('');
+	const [priority, setPriority] = useState('low');
 
 	const [category, setCategory] = useState('Personal');
 	const [description, setDescription] = useState('');
@@ -61,25 +63,20 @@ export default function CreateTaskModal({ initialTitle, listId, onClose }) {
 
 					{/* Meta Row: Priority & Category */}
 					<div className="grid grid-cols-2 gap-4">
-						<PriorityDropDownList
-							setPriority={setPriority}
-							priority={priority}
+						<ZenDropDownList
+							setValue={setPriority}
+							value={priority}
+							map={PRIORITY_MAP}
+							label="Priority"
+							icon={<Flag size={12} />}
 						/>
-						<div className="space-y-2">
-							<label className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-zinc-400">
-								<Tag size={12} /> Category
-							</label>
-							<select
-								value={category}
-								onChange={(e) => setCategory(e.target.value)}
-								className="w-full h-10 bg-zinc-50 dark:bg-zinc-900 border-none rounded-xl px-3 text-sm focus:ring-1 focus:ring-zinc-300 outline-none appearance-none"
-							>
-								<option value="Work">Work</option>
-								<option value="Personal">Personal</option>
-								<option value="Fitness">Fitness</option>
-								<option value="Groceries">Groceries</option>
-							</select>
-						</div>
+						<ZenDropDownList
+							setValue={setCategory}
+							value={category}
+							map={CATEGORY_MAP}
+							label="Category"
+							icon={<Tag size={12} />}
+						/>
 					</div>
 
 					{/* Description Textarea */}

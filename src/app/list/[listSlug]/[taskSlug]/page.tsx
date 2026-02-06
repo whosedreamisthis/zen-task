@@ -5,11 +5,11 @@ import { useRouter } from 'next/navigation';
 import {
 	ArrowLeft,
 	Tag,
-	Flag,
 	AlignLeft,
 	Pencil,
 	X,
 	Check,
+	Flag,
 } from 'lucide-react';
 import { notFound } from 'next/navigation';
 import { useTaskStore } from '@/store/useTaskStore';
@@ -17,8 +17,9 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
-import PriorityDropDownList from '@/components/PriorityDropDownList';
+import ZenDropDownList from '@/components/ZenDropDownList';
 import { PRIORITY_MAP } from '@/types/types';
+import { CATEGORY_MAP } from '@/types/types';
 
 export default function TaskListPage({
 	params,
@@ -38,13 +39,13 @@ export default function TaskListPage({
 	// Local state for editing
 	const [editTitle, setEditTitle] = useState('');
 	const [priority, setPriority] = useState('');
-	const [editCategory, setEditCategory] = useState('');
+	const [category, setCategory] = useState('');
 	const [editDescription, setEditDescription] = useState('');
 
 	const { data: session, status } = useSession();
 	const router = useRouter();
 	const currentPriority = task?.priority as keyof typeof PRIORITY_MAP;
-	const config = PRIORITY_MAP[currentPriority];
+
 	useEffect(() => {
 		if (status === 'unauthenticated') router.push('/');
 	}, [status, router]);
@@ -54,7 +55,7 @@ export default function TaskListPage({
 		if (task) {
 			setEditTitle(task.title);
 			setPriority(task.priority);
-			setEditCategory(task.category);
+			setCategory(task.category);
 			setEditDescription(task.description || '');
 		}
 	}, [task]);
@@ -66,7 +67,7 @@ export default function TaskListPage({
 		updateTask(listSlug, taskSlug, {
 			title: editTitle,
 			priority: priority as 'low' | 'medium' | 'high',
-			category: editCategory,
+			category: category,
 			description: editDescription,
 		});
 		setIsEditing(false);
@@ -130,38 +131,30 @@ export default function TaskListPage({
 					{isEditing ? (
 						<>
 							{/* Priority Dropdown */}
-							<PriorityDropDownList
-								setPriority={setPriority}
-								priority={priority}
-							/>
 
+							<ZenDropDownList
+								setValue={setPriority}
+								value={priority}
+								map={PRIORITY_MAP}
+								label="Priority"
+								icon={<Flag size={12} />}
+							/>
 							{/* Category Dropdown (Matches Modal) */}
-							<div className="flex flex-col gap-1">
-								<label className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-wider text-zinc-400">
-									<Tag size={12} /> Category
-								</label>
-								<select
-									value={editCategory}
-									onChange={(e) =>
-										setEditCategory(e.target.value)
-									}
-									className="h-10 p-2 rounded-xl border-none bg-zinc-100 dark:bg-zinc-900 text-sm focus:ring-1 focus:ring-zinc-300 outline-none"
-								>
-									<option value="Work">Work</option>
-									<option value="Personal">Personal</option>
-									<option value="Fitness">Fitness</option>
-									<option value="Groceries">Groceries</option>
-								</select>
-							</div>
+
+							<ZenDropDownList
+								setValue={setCategory}
+								value={category}
+								map={CATEGORY_MAP}
+								label="Category"
+								icon={<Tag size={12} />}
+							/>
 						</>
 					) : (
 						<>
 							<div
-								className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium ${config.color}`}
+								className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border text-sm font-medium`}
 							>
-								<span>
-									{config.icon} {config.label} Priority
-								</span>
+								<span>{task.priority}</span>
 							</div>
 							<div className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-gray-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-gray-600 dark:text-zinc-400 text-sm font-medium">
 								<Tag size={14} />
