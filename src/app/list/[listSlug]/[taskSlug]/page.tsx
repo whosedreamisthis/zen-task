@@ -94,7 +94,7 @@ export default function TaskListPage({
 							className="max-w-xs font-bold text-center"
 						/>
 					) : (
-						<h1 className="text-xl font-bold truncate max-w-[250px] sm:max-w-md">
+						<h1 className="text-xl font-semibold truncate max-w-[250px] sm:max-w-md">
 							{task.title}
 						</h1>
 					)}

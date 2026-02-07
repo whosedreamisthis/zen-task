@@ -32,12 +32,14 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 
 	return (
 		<>
-			<div className="relative bg-gray-100 dark:bg-gray-800 w-full max-w-md m-auto p-4">
+			<div className="relative bg-gray-50 dark:bg-gray-800 w-full m-auto p-4">
 				<Link className="absolute top-4 left-1" href="/list">
 					<ArrowLeft className="text-center" />
 				</Link>
 
-				<h1 className="text-center font-bold">{taskList.name}</h1>
+				<h1 className="text-center text-xl font-semibold">
+					{taskList.name}
+				</h1>
 			</div>
 			<div className="flex flex-col gap-4 w-full m-auto mt-10 px-4">
 				<div className="flex justify-center items-center w-full items-stretch">
