@@ -10,7 +10,16 @@ import ZenDropDownList from './ZenDropDownList';
 import { PRIORITY_MAP } from '@/types/types';
 import { CATEGORY_MAP } from '@/types/types';
 
-export default function CreateTaskModal({ initialTitle, listId, onClose }) {
+interface Props {
+	initialTitle: string;
+	listId: string;
+	onClose: () => void;
+}
+export default function CreateTaskModal({
+	initialTitle,
+	listId,
+	onClose,
+}: Props) {
 	const addTask = useTaskStore((state) => state.addTask);
 
 	// Local state for all details

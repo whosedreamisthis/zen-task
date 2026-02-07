@@ -45,4 +45,4 @@ export const CATEGORY_MAP = {
 	},
 } as const;
 
-export type DropDownMap = Record<string, string>;
+export type DropDownMap = typeof PRIORITY_MAP | typeof CATEGORY_MAP;

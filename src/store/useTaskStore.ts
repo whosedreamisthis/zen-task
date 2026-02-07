@@ -98,6 +98,7 @@ export const useTaskStore = create<TaskState>()(
 										tasks: list.tasks.map((task) => {
 											return taskId === task.id
 												? {
+														...task,
 														id: taskId,
 														title: newTitle,
 														isCompleted:

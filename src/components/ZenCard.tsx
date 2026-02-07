@@ -20,7 +20,21 @@ interface Props {
 		priorityIcon?: string;
 		categoryLabel?: string;
 	};
+	className?: string;
 }
+
+interface ZenCardState {
+	showTools: boolean;
+	editing: boolean;
+	newLabel: string;
+}
+
+type ZenCardAction =
+	| { type: 'CANCEL_EDIT' }
+	| { type: 'SAVE_EDIT' }
+	| { type: 'START_EDITING' }
+	| { type: 'SET_TOOLS'; payload: boolean }
+	| { type: 'SET_NEW_LABEL'; payload: string };
 
 const initialState = {
 	showTools: false,
@@ -28,7 +42,7 @@ const initialState = {
 	newLabel: '',
 };
 
-const reducer = (state, action) => {
+const reducer = (state: ZenCardState, action: ZenCardAction) => {
 	switch (action.type) {
 		case 'CANCEL_EDIT':
 			return {
@@ -70,6 +84,7 @@ export default function ZenCard({
 	onTap,
 	children,
 	meta,
+	className,
 }: Props) {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -90,12 +105,12 @@ export default function ZenCard({
 		}
 	};
 
-	const cancelLabelChange = () => {
-		// Here you would eventually save tempName to your state/database
+	const cancelLabelChange = (e?: React.SyntheticEvent) => {
+		e?.stopPropagation(); // Use optional chaining because onBlur might not need it
 		dispatch({ type: 'CANCEL_EDIT' });
 	};
 
-	const saveNewLabel = (e) => {
+	const saveNewLabel = (e: React.PointerEvent) => {
 		e.preventDefault();
 
 		if (state.newLabel !== '') {
@@ -106,7 +121,7 @@ export default function ZenCard({
 	};
 
 	return (
-		<>
+		<div className={className}>
 			{/* 1. GLOBAL OVERLAY: Only appears when tools are out */}
 			{state.showTools && (
 				<div
@@ -219,6 +234,6 @@ export default function ZenCard({
 					</Card>
 				</div>
 			</motion.div>
-		</>
+		</div>
 	);
 }

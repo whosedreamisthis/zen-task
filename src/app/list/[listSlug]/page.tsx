@@ -37,7 +37,7 @@ export default function TaskListPage({
 
 	return (
 		<div>
-			<TaskList className="w-full" taskList={taskList} />
+			<TaskList taskList={taskList} />
 		</div>
 	);
 }

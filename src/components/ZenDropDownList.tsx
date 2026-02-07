@@ -1,10 +1,10 @@
 import React from 'react';
-import { PRIORITY_MAP } from '@/types/types';
+import { DropDownMap, PRIORITY_MAP } from '@/types/types';
 import { Flag } from 'lucide-react';
 interface Props {
 	value: string;
 	setValue: (newValue: string) => void;
-	map;
+	map: DropDownMap;
 	icon: React.ReactNode;
 	label: string;
 }
@@ -28,10 +28,10 @@ export default function ZenDropDownList({
 				}}
 				className="h-10 p-2 rounded-xl border-none bg-zinc-100 dark:bg-zinc-900 text-sm focus:ring-1 focus:ring-zinc-300 outline-none"
 			>
-				{Object.keys(map).map((p) => {
+				{Object.values(map).map((entry) => {
 					return (
-						<option key={p} value={map[p].label}>
-							{map[p].label}
+						<option key={entry.label} value={entry.label}>
+							{entry.label}
 						</option>
 					);
 				})}
