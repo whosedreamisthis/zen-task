@@ -28,7 +28,13 @@ export default function TaskListPage({
 	// 1. Show loading while checking
 	// 2. Return null if no session (the useEffect will handle the push)
 	if (status === 'loading') return <div>Loading...</div>;
-	if (!session) return null;
+	if (!session)
+		return (
+			<div className="m-auto flex flex-col justify-center items-center mt-20">
+				<h1>Welcome to Zen Task</h1>
+				<p>Please sign in to see your lists.</p>
+			</div>
+		);
 
 	useEffect(() => {
 		setHasHydrated(true);
