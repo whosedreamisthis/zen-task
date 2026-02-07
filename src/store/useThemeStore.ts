@@ -15,7 +15,7 @@ export const useThemeStore = create<ThemeState>()(
 					isDark: !state.isDark,
 				})),
 		}),
-		{ name: 'theme' },
+		{ name: 'theme-storage' },
 	),
 );
 
