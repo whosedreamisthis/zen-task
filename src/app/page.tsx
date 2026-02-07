@@ -1,10 +1,11 @@
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
+import { authOptions } from './api/auth/[...nextauth]/route'; // Import your options
 
 export default async function HomePage() {
-	const session = await getServerSession();
+	// Pass authOptions here!
+	const session = await getServerSession(authOptions);
 
-	// If the user is authenticated, redirect them to the list page
 	if (session) {
 		redirect('/list');
 	}

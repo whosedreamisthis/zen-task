@@ -47,8 +47,17 @@ export default function TaskListPage({
 	const currentPriority = task?.priority as keyof typeof PRIORITY_MAP;
 
 	useEffect(() => {
-		if (status === 'unauthenticated') router.push('/');
+		// We only redirect if we are SURE the user is logged out
+		if (status === 'unauthenticated') {
+			router.push('/');
+		}
 	}, [status, router]);
+
+	// Guard the UI:
+	// 1. Show loading while checking
+	// 2. Return null if no session (the useEffect will handle the push)
+	if (status === 'loading') return <div>Loading...</div>;
+	if (!session) return null;
 
 	useEffect(() => {
 		setHasHydrated(true);

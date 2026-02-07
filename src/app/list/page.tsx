@@ -17,12 +17,18 @@ export default function TaskListsPage() {
 
 	const [listName, setListName] = useState('');
 
-	// Protect the route on the client side
 	useEffect(() => {
+		// We only redirect if we are SURE the user is logged out
 		if (status === 'unauthenticated') {
 			router.push('/');
 		}
 	}, [status, router]);
+
+	// Guard the UI:
+	// 1. Show loading while checking
+	// 2. Return null if no session (the useEffect will handle the push)
+	if (status === 'loading') return <div>Loading...</div>;
+	if (!session) return null;
 
 	const addNewList = () => {
 		if (listName !== '') {
