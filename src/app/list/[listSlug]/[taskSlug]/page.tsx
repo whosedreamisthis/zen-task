@@ -66,7 +66,7 @@ export default function TaskListPage({
 	const handleUpdate = () => {
 		updateTask(listSlug, taskSlug, {
 			title: editTitle,
-			priority: priority as 'low' | 'medium' | 'high',
+			priority: priority,
 			category: category,
 			description: editDescription,
 		});

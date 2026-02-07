@@ -13,7 +13,7 @@ export interface TaskListType {
 	tasks: TaskType[];
 }
 
-export type Priority = 'low' | 'medium' | 'high';
+// export type Priority = 'low' | 'medium' | 'high';
 
 export const PRIORITY_MAP = {
 	low: {

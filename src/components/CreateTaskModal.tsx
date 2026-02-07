@@ -15,7 +15,7 @@ export default function CreateTaskModal({ initialTitle, listId, onClose }) {
 
 	// Local state for all details
 	const [title, setTitle] = useState(initialTitle);
-	const [priority, setPriority] = useState('low');
+	const [priority, setPriority] = useState('🟢 Low Priority');
 
 	const [category, setCategory] = useState('Personal');
 	const [description, setDescription] = useState('');
