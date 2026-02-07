@@ -50,7 +50,7 @@ export default function TaskList({ taskList }: { taskList: TaskListType }) {
 
 			<div className="flex flex-col gap-6 w-full max-w-5xl m-auto mt-8 px-4">
 				{/* 1. Filtering & Search UI */}
-				<div className="flex flex-col md:flex-row gap-4 items-center">
+				<div className="flex flex-row md:flex-row gap-4 items-center">
 					<div className="relative flex-1 w-full">
 						<Search
 							className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
