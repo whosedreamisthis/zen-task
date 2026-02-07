@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { TaskListType } from '@/types/types';
-import { seed_tasks } from '@/data/seed';
+// import { seed_tasks } from '@/data/seed';
 
 interface TaskState {
 	lists: TaskListType[];
@@ -36,7 +36,7 @@ export const useTaskStore = create<TaskState>()(
 	persist(
 		(set) => {
 			return {
-				lists: seed_tasks,
+				lists: [],
 				addList: (name) =>
 					set((state) => ({
 						lists: [
