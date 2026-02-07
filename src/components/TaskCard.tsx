@@ -19,7 +19,8 @@ export default function TaskCard({
 	const [completed, setCompleted] = useState(task.isCompleted);
 	const router = useRouter();
 
-	const handleToggle = () => {
+	const handleToggle = (e: React.MouseEvent) => {
+		e.stopPropagation(); // 👈 This stops the "tap" from reaching ZenCard
 		toggleTask(listId, task.id);
 		setCompleted((prev) => !prev);
 	};
@@ -55,9 +56,11 @@ export default function TaskCard({
 			<div className="relative flex items-center justify-center">
 				{/* The Outer Box */}
 				<motion.div
-					onClick={handleToggle}
+					onClick={(e) => handleToggle(e)}
+					onPointerDown={(e) => e.stopPropagation()}
+					onPointerUp={(e) => e.stopPropagation()}
 					whileTap={{ scale: 0.8 }} // Squish effect on click
-					className={`w-6 h-6 rounded-md border-2 cursor-pointer flex items-center justify-center transition-colors ${
+					className={`z-50 w-6 h-6 rounded-md border-2 cursor-pointer flex items-center justify-center transition-colors ${
 						completed
 							? 'bg-blue-500 border-blue-500'
 							: 'border-gray-400 dark:border-gray-500'
