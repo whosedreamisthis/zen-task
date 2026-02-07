@@ -30,8 +30,8 @@ export default function ZenDropDownList({
 			>
 				{Object.keys(map).map((p) => {
 					return (
-						<option key={p} value={map[p]}>
-							{map[p]}
+						<option key={p} value={map[p].label}>
+							{map[p].label}
 						</option>
 					);
 				})}

@@ -1,5 +1,5 @@
 'use client';
-import { TaskType } from '@/types/types';
+import { PRIORITY_MAP, TaskType } from '@/types/types';
 import { useTaskStore } from '@/store/useTaskStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import ZenCard from './ZenCard';
@@ -28,6 +28,13 @@ export default function TaskCard({
 		router.push(`/list/${listId}/${id}`);
 	};
 
+	const findIconByLabel = (labelName: string) => {
+		const match = Object.values(PRIORITY_MAP).find(
+			(item) => item.label === labelName,
+		);
+		return match ? match.icon : null;
+	};
+
 	return (
 		<ZenCard
 			id={task.id}
@@ -43,6 +50,7 @@ export default function TaskCard({
 			className={
 				completed ? 'opacity-60 transition-opacity' : 'opacity-100'
 			}
+			meta={{ priorityIcon: findIconByLabel(task.priority) ?? undefined }}
 		>
 			<div className="relative flex items-center justify-center">
 				{/* The Outer Box */}

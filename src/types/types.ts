@@ -16,16 +16,33 @@ export interface TaskListType {
 export type Priority = 'low' | 'medium' | 'high';
 
 export const PRIORITY_MAP = {
-	low: '🟢 Low Priority',
-	medium: '🟡 Medium Priority',
-	high: '🔴 High Priority',
+	low: {
+		label: '🟢 Low Priority',
+		icon: '🟢',
+	},
+	medium: {
+		label: '🟡 Medium Priority',
+		icon: '🟡',
+	},
+	high: {
+		label: '🔴 High Priority',
+		icon: '🔴',
+	},
 } as const;
 
 export const CATEGORY_MAP = {
-	work: 'Work',
-	personal: 'Personal',
-	groceries: 'Groceries',
-	fitness: 'Fitness',
+	work: {
+		label: 'Work',
+	},
+	personal: {
+		label: 'Personal',
+	},
+	groceries: {
+		label: 'Groceries',
+	},
+	fitness: {
+		label: 'Fitness',
+	},
 } as const;
 
 export type DropDownMap = Record<string, string>;

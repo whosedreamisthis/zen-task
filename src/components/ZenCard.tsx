@@ -5,7 +5,7 @@ import React, { useRef, useReducer } from 'react';
 import { Card } from './ui/card';
 
 import { motion } from 'framer-motion';
-import { Check, Pencil, Trash, X } from 'lucide-react';
+import { Check, Flag, Pencil, Trash, X } from 'lucide-react';
 
 import { Input } from './ui/input';
 
@@ -16,6 +16,10 @@ interface Props {
 	onUpdate: (id: string, label: string) => void;
 	onTap: (id: string) => void;
 	children?: React.ReactNode;
+	meta?: {
+		priorityIcon?: string;
+		categoryLabel?: string;
+	};
 }
 
 const initialState = {
@@ -65,6 +69,7 @@ export default function ZenCard({
 	onUpdate,
 	onTap,
 	children,
+	meta,
 }: Props) {
 	const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -190,18 +195,26 @@ export default function ZenCard({
 								/>
 							</div>
 						) : (
-							<div className="flex pl-3 gap-3">
-								{children}
-								<div
-									className={`truncate ${
-										state.showTools
-											? 'max-w-[75%]'
-											: 'max-w-[85%]'
-									}`}
-								>
-									{label}
+							<>
+								<div className="flex pl-3 gap-3">
+									{children}
+									<div
+										className={`truncate ${
+											state.showTools
+												? 'max-w-[75%]'
+												: 'max-w-[85%]'
+										}`}
+									>
+										{label}
+									</div>
+
+									{meta?.priorityIcon && (
+										<p className="absolute right-3">
+											{meta?.priorityIcon}
+										</p>
+									)}
 								</div>
-							</div>
+							</>
 						)}
 					</Card>
 				</div>
